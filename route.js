@@ -1,3 +1,6 @@
+window.onload = function () {
+	console.log(window.location);
+};
 const root = document.getElementById("root");
 
 //Add an event listener to all route text;
@@ -35,13 +38,17 @@ function createRoute(route) {
 	//pushState method of history object just pushes the new state to current one and changes the current route in the url.
 	//Basically it pushes the current state to the history stack.
 	//It will not let browser to make a server call for current URL until you refresh the current window.
-	window.history.pushState({ route: new_route }, new_route, "/" + new_route);
+	window.history.pushState(
+		{ route: new_route, id: Math.random() * 3 },
+		new_route,
+		new_route
+	);
 	root.innerHTML = route_table[new_route];
 }
 
 //Whenever the state changes like if we go back and forth in a window of browser this event gets triggered
+
 window.onpopstate = function () {
-	createRoute(window.location.pathname);
-	console.log(this.event);
-	console.log("on pop state changed");
+	console.log(window.location.pathname);
+	root.innerHTML = route_table[window.location.pathname.replace("/", "")];
 };
